@@ -8,6 +8,6 @@ code snippets for aws cloud management
 
 This policy is used for:
 * Launch instances only in certain region, vpc, subnet and security group
-* Can only control instance with Tag (User:${aws:username})
+* Can only control instance with Tag (User:_${aws:username}_)
 * View only for all other ec2 resources 
 
