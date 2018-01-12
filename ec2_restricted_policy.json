@@ -1,0 +1,108 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "RestrictedLaunchInstance",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": [
+                "arn:aws:ec2:*:123456789012:subnet/subnet-*****",
+                "arn:aws:ec2:*:123456789012:instance/*",
+                "arn:aws:ec2:*::snapshot/*",
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:123456789012:key-pair/*",
+                "arn:aws:ec2:*:123456789012:security-group/sg-*******",
+                "arn:aws:ec2:*:*:placement-group/*",
+                "arn:aws:ec2:*:123456789012:network-interface/*",
+                "arn:aws:ec2:*::image/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "ec2:Region": "ap-southeast-1"
+                }
+            }
+        },
+        {
+            "Sid": "ManageOnlyTaggedInstances",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:TerminateInstances",
+                "ec2:StartInstances",
+                "ec2:StopInstances"
+            ],
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:Region": "ap-southeast-1",
+                    "ec2:ResourceTag/User": "${aws:username}"
+                }
+            }
+        },
+        {
+            "Sid": "LaunchCertainInstanceTypes",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:InstanceType": [
+                        "t2.*",
+                        "g2.*",
+                        "g3.*",
+                        "c3.*",
+                        "c4.*"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "AllowTagForEC2Launch",
+            "Effect": "Allow",
+            "Action": "ec2:CreateTags",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:CreateAction": "RunInstances"
+                }
+            }
+        },
+        {
+            "Sid": "ViewAllEC2Resouces",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeInstanceAttribute",
+                "ec2:DescribeRegions",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribePlacementGroups",
+                "ec2:DescribeVolumeStatus",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeExportTasks",
+                "ec2:DescribeAccountAttributes",
+                "ec2:DescribeKeyPairs",
+                "ec2:DescribeInstanceStatus",
+                "ec2:DescribeIamInstanceProfileAssociations",
+                "ec2:DescribeSnapshotAttribute",
+                "ec2:DescribeTags",
+                "ec2:DescribeIdFormat",
+                "ec2:DescribeBundleTasks",
+                "ec2:DescribeImportImageTasks",
+                "ec2:DescribeClassicLinkInstances",
+                "ec2:DescribeIdentityIdFormat",
+                "ec2:DescribeVolumeAttribute",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeImportSnapshotTasks",
+                "ec2:DescribeHosts",
+                "ec2:DescribeImages",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeImageAttribute",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeConversionTasks",
+                "iam:GetAccountSummary"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
